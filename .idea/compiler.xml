@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Ecommerce-App-API-Gateway" />
+        <module name="Ecommerce-App-Config-Server" />
+        <module name="Ecommerce-App-Service-Registry" />
+      </profile>
+      <profile name="Annotation profile for ecommerce-parent" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="Ecommerce-App-Product-service" />
+        <module name="Ecommerce-App-Cart-service" />
+        <module name="Ecommerce-App-Notification-service" />
+        <module name="Ecommerce-App-Order-service" />
+        <module name="Ecommerce-App-Payment-service" />
+        <module name="Ecommerce-App-User-service" />
+        <module name="Ecommerce-App-Review-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Ecommerce-App-API-Gateway" options="-parameters" />
+      <module name="Ecommerce-App-Cart-service" options="-parameters" />
+      <module name="Ecommerce-App-Config-Server" options="-parameters" />
+      <module name="Ecommerce-App-Notification-service" options="-parameters" />
+      <module name="Ecommerce-App-Order-service" options="-parameters" />
+      <module name="Ecommerce-App-Payment-service" options="-parameters" />
+      <module name="Ecommerce-App-Product-service" options="-parameters" />
+      <module name="Ecommerce-App-Review-service" options="-parameters" />
+      <module name="Ecommerce-App-Service-Registry" options="-parameters" />
+      <module name="Ecommerce-App-User-service" options="-parameters" />
+    </option>
+  </component>
+</project>

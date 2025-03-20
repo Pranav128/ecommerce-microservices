@@ -1,0 +1,48 @@
+<button style="background-color: cornflowerblue; color: white; padding: 10px 20px;
+        border-radius: 5px; cursor: pointer; font-size: 16px;
+        border: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease; margin-top: 20px; margin-left: 20px; margin-right: 20px;"
+        id="pay-button"
+>Pay Now</button>
+
+<a style=" background-color: green; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;
+           font-size: 16px; border: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+           transition: background-color 0.3s ease; margin-top: 20px; margin-left: 20px; margin-right: 20px;"
+    href="https://www.instamojo.com/@instamojo/" rel=”im-checkout” data-behaviour=”remote” data-style=”light” data-text=”Checkout With Instamojo”
+>
+    InstMojo
+</a>
+<script src=”https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js”></script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    document.getElementById('pay-button').onclick = function () {
+        fetch('http://localhost:8084/api/payments/create-order?orderId=1&amount=10.0?paymentMethod=razorpay', { // Corrected URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Important: Send JSON
+            }
+        })
+            .then(response => response.json())
+            .then(order => {
+                const options = {
+                    key: "rzp_test_YTLKXsF0D5N13d", // Replace with your Razorpay API Key
+                    amount: order.amount * 100, // Convert amount to paise
+                    currency: "INR", // Hardcoded currency in your service
+                    name: "Pranav@Ecommerce",
+                    description: "Test Transaction ft.Pranav",
+                    order_id: order.paymentId, // Correct orderId from response.
+                    handler: function (response) {
+                        alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                    },
+                    theme: {
+                        color: "#3399cc"
+                    }
+                };
+                const rzp = new Razorpay(options);
+                rzp.open();
+            })
+            .catch(err => console.error(err));
+    };
+</script>

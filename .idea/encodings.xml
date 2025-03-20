@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-API-Gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Cart-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Config-Server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Notification-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Review-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-Service-Registry/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Ecommerce-App-User-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

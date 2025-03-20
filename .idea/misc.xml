@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Ecommerce-App-API-Gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Cart-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-User-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Config-Server/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Order-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Product-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Service-Registry/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Payment-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Notification-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Ecommerce-App-Review-service/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
