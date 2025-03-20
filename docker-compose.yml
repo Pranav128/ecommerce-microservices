@@ -1,0 +1,231 @@
+version: "3"
+services:
+  service-registry:
+    image: pranav128/ecommerce_microservices:service-registry-v1
+    ports:
+      - "8761:8761"
+    container_name: service-registry
+    networks:
+      - ecommerce-network
+
+  config-server:
+    image: pranav128/ecommerce_microservices:config-server-v1
+    ports:
+      - "8888:8888"
+    container_name: config-server
+    depends_on:
+      - service-registry
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/   #to not get error while running docker compose
+    networks:
+      - ecommerce-network
+
+  api-gateway:
+    image: pranav128/ecommerce_microservices:api-gateway-v1
+    ports:
+      - "9191:9191"
+    container_name: api-gateway
+    depends_on:
+      - service-registry
+      - config-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/   #to not get error while running docker compose
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888 #to not get error while running docker compose
+    networks:
+      - ecommerce-network
+
+  user-service:
+    image: pranav128/ecommerce_microservices:user-service-v1
+    ports:
+      - "8080:8080"
+    container_name: user-service
+    depends_on:
+      - service-registry
+      - config-server
+      - api-gateway
+      - mysql-db
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/userdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - ecommerce-network
+
+  product-service:
+    image: pranav128/ecommerce_microservices:product-service-v1
+    ports:
+      - "8081:8081"
+    container_name: product-service
+    depends_on:
+      - service-registry
+      - config-server
+      - api-gateway
+      - mysql-db
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/productdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - ecommerce-network
+
+  cart-service:
+    image: pranav128/ecommerce_microservices:cart-service-v1
+    container_name: cart-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - service-registry
+      - config-server
+      - api-gateway
+      - mongo-db
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/   #to not get error while running docker compose
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888 #to not get error while running docker compose
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo-db:27017/cartdb
+    networks:
+      - ecommerce-network
+
+  order-service:
+    image: pranav128/ecommerce_microservices:order-service-v1
+    container_name: order-service
+    ports:
+      - "8083:8083"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/orderdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - service-registry
+      - config-server
+      - api-gateway
+      - mysql-db
+    networks:
+      - ecommerce-network
+
+  payment-service:
+    image: pranav128/ecommerce_microservices:payment-service-v1
+    container_name: payment-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - service-registry
+      - config-server
+      - api-gateway
+      - mysql-db
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/   #to not get error while running docker compose
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888 #to not get error while running docker compose
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/paymentdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - ecommerce-network
+
+  review-service:
+    image: pranav128/ecommerce_microservices:review-service-v1
+    container_name: review-service
+    ports:
+      - "8088:8088"
+    depends_on:
+      - service-registry
+      - config-server
+      - api-gateway
+      - mongo-db
+      - product-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/   #to not get error while running docker compose
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888 #to not get error while running docker compose
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo-db:27017/reviewdb
+    networks:
+      - ecommerce-network
+
+  notification-service:
+    image: pranav128/ecommerce_microservices:notification-service-v1
+    container_name: notification-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - service-registry
+      - config-server
+      - api-gateway
+      - order-service
+      - payment-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    networks:
+      - ecommerce-network
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=userdb
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d/
+    networks:
+      - ecommerce-network
+
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - ecommerce-network
+
+#  zipkin-server:
+#    image: openzipkin/zipkin
+#    container_name: zipkin-server
+#    ports:
+#      - "9411:9411"
+#    networks:
+#      - ecommerce-network
+
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#    networks:
+#      - ecommerce-network
+
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - ecommerce-network
+
+#  rabbitmq:
+#    image: rabbitmq:3-management
+#    container_name: rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    networks:
+#      - ecommerce-network
+
+
+volumes:
+  mysql-data:
+  mongo-data:
+
+networks:
+  ecommerce-network:
+    driver: bridge
