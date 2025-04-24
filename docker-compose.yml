@@ -186,6 +186,15 @@ services:
     networks:
       - ecommerce-network
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - ecommerce-network
+
 #  zipkin-server:
 #    image: openzipkin/zipkin
 #    container_name: zipkin-server
@@ -209,15 +218,6 @@ services:
 #    container_name: grafana
 #    ports:
 #      - "3000:3000"
-#    networks:
-#      - ecommerce-network
-
-#  rabbitmq:
-#    image: rabbitmq:3-management
-#    container_name: rabbitmq
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
 #    networks:
 #      - ecommerce-network
 
