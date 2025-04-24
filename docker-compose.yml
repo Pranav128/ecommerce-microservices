@@ -128,7 +128,7 @@ services:
       - ecommerce-network
 
   review-service:
-    image: pranav128/ecommerce_microservices:review-service-v1
+    image: pranav128/ecommerce_microservices:product-review-v1
     container_name: review-service
     ports:
       - "8088:8088"
