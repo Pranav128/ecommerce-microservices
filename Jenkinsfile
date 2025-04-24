@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo '📥 Cloning repository from GitHub...'
                 git 'https://github.com/Pranav128/ecommerce-microservices.git'
-                echo '✅Repository Clonned...'
+                echo '✅Repository cloned...'
             }
         }
 
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo '🔨 Building all microservices using Maven and JIB...'
                 bat 'mvn clean install -DskipTests jib:dockerBuild'
-                echo "✅ Build successfull"
+                echo "✅ Build successfully"
             }
         }
 
